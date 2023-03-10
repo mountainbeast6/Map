@@ -39,7 +39,8 @@ public class Main {
         g.insertEdge("M","N","20");
         g.insertEdge("O","P","21");
         g.print();
-        System.out.println(g.endVerticies("20"));
+        System.out.println(g.removeVertex("O"));
+        g.print();
     }
 
 }

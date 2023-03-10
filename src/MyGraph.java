@@ -121,10 +121,42 @@ public class MyGraph {
     }
     public String removeEdge(String E){
         Edge e  = getEdgeFromStr(E);
-        return null;
+        if(e!=null){
+            Set<Vertex> vertices =graph.keySet();
+            for (Vertex v: vertices){
+                ArrayList<GraphPairing> graphPairingArrayList=graph.get(v);
+                if(graphPairingArrayList!=null){
+                    for(int i=0; i<graphPairingArrayList.size();i++){
+                        GraphPairing g =graphPairingArrayList.get(i);
+                        if(g.getE().compareTo(e)==0){
+                            ArrayList<GraphPairing> GraphPairingArrayList=graph.get(g.getV());
+                            for(int k=0; k<graphPairingArrayList.size();k++){
+                                GraphPairing G =graphPairingArrayList.get(k);
+                                if(G.getE().compareTo(e)==0) {
+                                    graph.get(g.getV()).remove(G);
+                                    break;
+                                }
+                            }
+                            graph.get(v).remove(g);
+                            break;
+                        }
+
+                    }
+                }
+            }
+        }
+        if(e==(null))
+            return null;
+        edges().remove(e);
+        return e.getName();
     }
     public String removeVertex(String V){
+        Vertex v = getVertexFromStr(V);
 
+        for(int i = graph.get(v).size()-1; i>=0;i--){
+            removeEdge(graph.get(v).get(i).getE().getName());
+        }
+        graph.remove(v);
         return null;
     }
     private Vertex getVertexFromStr(String name){
