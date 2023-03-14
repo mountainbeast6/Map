@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Stack;
 
 public class MyGraph {
     private int numvert;
@@ -137,6 +138,7 @@ public class MyGraph {
                                     break;
                                 }
                             }
+
                             graph.get(v).remove(g);
                             break;
                         }
@@ -157,6 +159,7 @@ public class MyGraph {
             removeEdge(graph.get(v).get(i).getE().getName());
         }
         graph.remove(v);
+        vertic().remove(v);
         return null;
     }
     private Vertex getVertexFromStr(String name){
@@ -181,5 +184,22 @@ public class MyGraph {
             }
         }
         return null;
+    }
+    public String pathFromVertexToVertex(String V1, String V2){
+        Vertex v1 = getVertexFromStr(V1);
+        Vertex v2 = getVertexFromStr(V2);
+
+        return null;
+    }
+    private Stack<Vertex> recurPathing(Stack<Vertex> rec, Vertex V1, Vertex V2, ArrayList<Vertex> used){
+        if(rec.size()==0){
+            rec.add(V1);
+        }
+        if (getEdge(rec.peek().getName(),V2.getName())!=null){
+            rec.add(V2);
+            return rec;
+        }
+
+        return recurPathing(rec,V1,V2,used);
     }
 }
