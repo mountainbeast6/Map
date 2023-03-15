@@ -188,18 +188,35 @@ public class MyGraph {
     public String pathFromVertexToVertex(String V1, String V2){
         Vertex v1 = getVertexFromStr(V1);
         Vertex v2 = getVertexFromStr(V2);
+        ArrayList<ArrayList<Vertex>> used = new ArrayList<>();
+        Stack<Vertex> moves = new Stack<>();
+        for(Vertex v: graph.keySet())
+            used.add(new ArrayList<Vertex>());
+        moves.add(v1);
+        while (moves.peek().compareTo(v2)!=0){
 
+        }
         return null;
     }
-    private Stack<Vertex> recurPathing(Stack<Vertex> rec, Vertex V1, Vertex V2, ArrayList<Vertex> used){
-        if(rec.size()==0){
-            rec.add(V1);
+    private Stack<Vertex> pathOptions(Stack<Vertex> rec, Vertex V1){
+        Stack<Vertex> ret=new Stack<>();
+        for(GraphPairing g:graph.get(V1)){
+            ret.add(g.getV());
         }
-        if (getEdge(rec.peek().getName(),V2.getName())!=null){
-            rec.add(V2);
-            return rec;
-        }
+        return ret;
+    }
+    private Vertex getNextMove(Stack<Vertex> rec, Vertex V1, Vertex V2, ArrayList<Vertex> used){
+        return null;
+    }
+    private Integer getIndexFromKey(Vertex v){
+        int i=0;
 
-        return recurPathing(rec,V1,V2,used);
+        for(Vertex V: graph.keySet()) {
+            if (V.compareTo(v)==0) {
+                return i;
+            }
+            i++;
+        }
+        return null;
     }
 }
