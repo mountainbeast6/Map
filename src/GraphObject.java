@@ -2,6 +2,7 @@ public class GraphObject implements Comparable<GraphObject> {
     private String name;
     private int weight;
 
+
     public GraphObject(String name) {
         this.name = name;
     }

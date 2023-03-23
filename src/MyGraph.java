@@ -203,30 +203,40 @@ public class MyGraph {
     public String pathFromVertexToVertex(String V1, String V2) {
         Vertex v1 = getVertexFromStr(V1);
         Vertex v2 = getVertexFromStr(V2);
-        ArrayList<ArrayList<Vertex>> used = new ArrayList<>();
         Stack<Vertex> moves = new Stack<>();
-        for (Vertex v : graph.keySet())
-            used.add(new ArrayList<Vertex>());
         moves.push(v1);
+        v1.setUsed(true);
         while (moves.peek().compareTo(v2) != 0) {
             Vertex top = moves.peek();
-            Vertex temp = getNextMove(pathOptions(top), v2, used);
+            Vertex temp = getNextMove(top,pathOptions(top), v2);
             if (temp != null) {
-                used.get(getIndexFromKey(top)).add(temp);
-                moves.push(temp);
+                temp.setUsed(true);
+                getEdgeFromStr(getEdge(top.getName(), temp.getName())).setUsed(true);
+                moves.add(temp);
             } else {
-                int v = getIndexFromKey(moves.pop());
-                for (int i = 0; i < used.get(v).size(); i++) {
-                    used.get(v).remove(0);
+                ArrayList<GraphPairing> graphPairingArrayList = graph.get(v1);
+                for (GraphPairing g: graphPairingArrayList) {
+                    g.getE().setUsed(false);
+                    g.getV().setUsed(false);
                 }
+                getEdgeFromStr(getEdge(moves.pop().getName(), moves.peek().getName())).setUsed(true);
+                moves.peek().setUsed(true);
             }
-
         }
         if (moves.size() == 0) {
-            return "??????????????????????????????????????????????????????";
+            return "No Path";
         } else {
-            return "solution";
+            return AlistToString(moves);
         }
+    }
+    private String AlistToString(Stack<Vertex>v){
+        String ret = "";
+        for (int i = v.size()-2; i>=0; i--){
+            ret=ret+v.get(0).getName()+"--"+getEdge(v.get(0).getName(), v.get(1).getName())+"--> ";
+            v.remove(0);
+        }
+        ret=ret+v.get(0).getName();
+        return ret;
     }
     private Stack<Vertex> pathOptions(Vertex V1) {
         Stack<Vertex> ret = new Stack<>();
@@ -236,10 +246,11 @@ public class MyGraph {
         return ret;
     }
 
-    private Vertex getNextMove(Stack<Vertex> rec, Vertex goal, ArrayList<ArrayList<Vertex>> used) {
+
+    private Vertex getNextMove(Vertex start, Stack<Vertex> rec, Vertex goal) {
         Vertex sending = null;
         for (int i = 0; i<rec.size();i++){
-            if(!inExhausted(goal, rec.get(i), used)){
+            if((!getEdgeFromStr(getEdge(start.getName(), rec.get(i).getName())).isUsed())&&(!rec.get(i).isUsed())){
                 return rec.get(i);
             }
         }
