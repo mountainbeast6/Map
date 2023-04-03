@@ -232,7 +232,7 @@ public class MyGraph {
     private String AlistToString(Stack<Vertex>v){
         String ret = "";
         for (int i = v.size()-2; i>=0; i--){
-            ret=ret+v.get(0).getName()+"--"+getEdge(v.get(0).getName(), v.get(1).getName())+"--> ";
+            ret=ret+v.get(0).getName()+" --"+getEdge(v.get(0).getName(), v.get(1).getName())+"--> ";
             v.remove(0);
         }
         ret=ret+v.get(0).getName();
@@ -249,6 +249,11 @@ public class MyGraph {
 
     private Vertex getNextMove(Vertex start, Stack<Vertex> rec, Vertex goal) {
         Vertex sending = null;
+        for (int i = 0; i<rec.size();i++) {
+            if(rec.get(i).compareTo(goal)==0){
+                return rec.get(i);
+            }
+        }
         for (int i = 0; i<rec.size();i++){
             if((!getEdgeFromStr(getEdge(start.getName(), rec.get(i).getName())).isUsed())&&(!rec.get(i).isUsed())){
                 return rec.get(i);
